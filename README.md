@@ -1,7 +1,7 @@
 YelpCamp
 ========
 
-### This is my first full-stack project. It's a web app for finding the best campground.
+### This is my first full-stack project. It's a RESTful web app for finding the best campground.
 
 Technologies Used
 -----------------
