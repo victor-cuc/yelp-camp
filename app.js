@@ -22,6 +22,18 @@ var campgrounds = [
     name: "La munte la mici", 
     image:"https://d2ciprw05cjhos.cloudfront.net/files/v3/styles/gs_large/public/images/18/06/gettyimages-649155058.jpg?itok=Lhx5ciAR"
   },
+  {
+    name: "Salmon Creek", 
+    image: "https://s3.amazonaws.com/imagescloud/images/medias/reservation/camping/main.jpg"
+  },
+  {
+    name: "La mici", 
+    image: "http://www.hqshuibiao.com/wp-content/uploads/2018/10/general-.jpg"
+  },
+  {
+    name: "La munte la mici", 
+    image:"https://d2ciprw05cjhos.cloudfront.net/files/v3/styles/gs_large/public/images/18/06/gettyimages-649155058.jpg?itok=Lhx5ciAR"
+  },
 ];
 
 app.get('/campgrounds', (req, res) => {
