@@ -1,23 +1,22 @@
 const express = require('express'),
       app = express(), 
       bodyParser = require('body-parser'), 
-      mongoose = require("mongoose");
+      mongoose = require("mongoose"),
+      Campground = require("./models/campground"),
+      seedDB = require('./seeds');
 
+seedDB();
 mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true });
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
-const campgroundSchema = new mongoose.Schema({
-  name: String,
-  image: String
-});
 
-const Campground = mongoose.model("Campground", campgroundSchema);
 
 // Campground.create(
 //   {
 //     name: "La mici", 
-//     image: "http://www.hqshuibiao.com/wp-content/uploads/2018/10/general-.jpg"
+//     image: "http://www.hqshuibiao.com/wp-content/uploads/2018/10/general-.jpg",
+//     description: "Nice place"
 //   }, 
 //   (err, campground) => {
 //     if (err) {
@@ -66,7 +65,7 @@ app.get('/campgrounds', (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      res.render('campgrounds', {campgrounds: storedCampgrounds})
+      res.render('index', {campgrounds: storedCampgrounds})
     }
   });
 });
@@ -76,7 +75,8 @@ app.post("/campgrounds", (req, res) => {
   //get data from form and redirect to camgrounds array
   const name = req.body.name;
   const img = req.body.image;
-  const newCampground = {name: name, image: img};
+  const desc = req.body.description;
+  const newCampground = {name: name, image: img, description: desc};
 
   Campground.create(newCampground, (err, campground) => {
     if (err) {
@@ -91,6 +91,17 @@ app.post("/campgrounds", (req, res) => {
 //NEW - show form to create new campgrounds
 app.get("/campgrounds/new", (req, res) => {
   res.render("new");
+});
+
+//SHOW - the page shown for each campground
+app.get("/campgrounds/:id", (req, res) => {
+  Campground.findById(req.params.id, (err, campground) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("show", {campground: campground});
+    }
+  });
 });
 
 app.listen(3000, () => {
