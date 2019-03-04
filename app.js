@@ -10,23 +10,6 @@ mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
-
-
-// Campground.create(
-//   {
-//     name: "La mici", 
-//     image: "http://www.hqshuibiao.com/wp-content/uploads/2018/10/general-.jpg",
-//     description: "Nice place"
-//   }, 
-//   (err, campground) => {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       console.log("new campground " + campground.name);
-//     }
-//   }
-// );
-
 app.get("/", (req, res) => {
   res.render("landing");
 });
@@ -95,10 +78,11 @@ app.get("/campgrounds/new", (req, res) => {
 
 //SHOW - the page shown for each campground
 app.get("/campgrounds/:id", (req, res) => {
-  Campground.findById(req.params.id, (err, campground) => {
+  Campground.findById(req.params.id).populate("comments").exec((err, campground) => {
     if (err) {
       console.log(err);
     } else {
+      console.log(campground);
       res.render("show", {campground: campground});
     }
   });
