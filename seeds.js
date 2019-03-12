@@ -48,7 +48,7 @@ function seedDB() {
 								text: 'This place is great, but I wish there was internet',
 								author: 'Homer'
 							},
-							function(err, comment) {
+							(err, comment) => {
 								if (err) {
 									console.log(err);
 								} else {

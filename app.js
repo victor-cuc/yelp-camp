@@ -10,7 +10,6 @@ seedDB();
 mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true });
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
-
 app.get("/", (req, res) => {
   res.render("landing");
 });
