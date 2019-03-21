@@ -14,12 +14,18 @@
     </div>
     <div class="col-md-9">
       <div class="thumbnail">
-        <img src="<%= campground.image %>" alt="campground image" class="img-responsive">
+        <img src="<%= campground.image %>" class="img-responsive">
         <div class="caption caption-full">
           <h4 class="pull-right">£49.00/night</h4>
           <h4><a href=""><%= campground.name %></a></h4>
           <p><%= campground.description %></p>
-          <p><em>Added by: <%= campground.author.username %></em></p>
+          <p>
+            <em>Added by: <%= campground.author.username %></em>
+          </p>
+          <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
+          <form id="delete-form" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="post">
+            <button class="btn btn-xs btn-danger">Delete</button>
+          </form>
         </div>
       </div>
       <div class="well">

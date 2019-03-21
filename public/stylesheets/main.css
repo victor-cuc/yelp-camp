@@ -10,3 +10,7 @@
   height: 180px;
   object-fit: cover;
 }
+
+#delete-form {
+  display: inline;
+}
