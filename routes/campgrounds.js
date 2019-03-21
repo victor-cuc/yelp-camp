@@ -4,7 +4,7 @@ const express = require("express"),
 
 
 //INDEX - show all campgrounds
-router.get('', (req, res) => {
+router.get('/', (req, res) => {
 	// res.render('campgrounds', {campgrounds: campgrounds});
 	Campground.find({}, (err, storedCampgrounds) => {
 		if (err) {
@@ -16,12 +16,16 @@ router.get('', (req, res) => {
 });
 
 //CREATE - add new campground to db
-router.post('', isLoggedIn, (req, res) => {
+router.post('/', isLoggedIn, (req, res) => {
 	//get data from form and redirect to camgrounds array
 	const name = req.body.name;
 	const img = req.body.image;
 	const desc = req.body.description;
-	const newCampground = { name: name, image: img, description: desc };
+	const author = {
+		id: req.user._id,
+		username: req.user.username
+	}
+	const newCampground = { name: name, image: img, description: desc, author: author};
 
 	Campground.create(newCampground, (err, campground) => {
 		if (err) {
@@ -49,6 +53,18 @@ router.get('/:id', (req, res) => {
 		}
 	});
 });
+
+//EDIT - form allowing to edit
+router.get("/:id/edit", (req, res) => {
+	Campground.findById(req.params.id, (err, foundCampground) => {
+		if (err) 
+			res.redirect("/campgrounds");
+		else
+			res.render("campgrounds/edit", {campground: foundCampground});
+	})
+});
+
+//UPDATE - handling the edit
 
 function isLoggedIn(req, res, next) {
 	if (req.isAuthenticated()) {
