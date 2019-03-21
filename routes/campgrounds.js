@@ -16,7 +16,7 @@ router.get('', (req, res) => {
 });
 
 //CREATE - add new campground to db
-router.post('', (req, res) => {
+router.post('', isLoggedIn, (req, res) => {
 	//get data from form and redirect to camgrounds array
 	const name = req.body.name;
 	const img = req.body.image;
@@ -28,13 +28,13 @@ router.post('', (req, res) => {
 			console.log(err);
 		} else {
 			console.log('Added: ' + campground.name);
-			res.redirect('');
+			res.redirect('/campgrounds');
 		}
 	});
 });
 
 //NEW - show form to create new campgrounds
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
 	res.render('campgrounds/new');
 });
 
@@ -49,5 +49,12 @@ router.get('/:id', (req, res) => {
 		}
 	});
 });
+
+function isLoggedIn(req, res, next) {
+	if (req.isAuthenticated()) {
+		return next();	
+	}
+	res.redirect("/login");
+}
 
 module.exports = router;
