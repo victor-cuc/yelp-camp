@@ -101,7 +101,7 @@ function checkCampgroundOwnership(req, res, next) {
 				res.redirect('back');
 			} else {
 				// we need '.equals()' because if we use '===' they won't show as equal
-				if (foundCampground.author.id.equals(req.user.id)) {
+				if (foundCampground.author.id.equals(req.user._id)) {
 					next();
 				} else {
 					res.redirect('back');
