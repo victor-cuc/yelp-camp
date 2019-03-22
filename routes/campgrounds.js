@@ -61,7 +61,7 @@ router.get('/:id/edit', checkCampgroundOwnership, (req, res) => {
 });
 
 //UPDATE - handling the edit
-router.put('/:id', (req, res) => {
+router.put('/:id', checkCampgroundOwnership, (req, res) => {
 	Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, updatedCampground) => {
 		if (err) {
 			res.redirect('/campgrounds');
@@ -72,7 +72,7 @@ router.put('/:id', (req, res) => {
 });
 
 //DESTROY - delete campground
-router.delete('/:id', (req, res) => {
+router.delete('/:id', checkCampgroundOwnership, (req, res) => {
 	Campground.findByIdAndRemove(req.params.id, (err, deletedCampground) => {
 		if (err) {
 			res.redirect('/campgrounds');
@@ -100,6 +100,7 @@ function checkCampgroundOwnership(req, res, next) {
 			if (err) {
 				res.redirect('back');
 			} else {
+				// we need '.equals()' because if we use '===' they won't show as equal
 				if (foundCampground.author.id.equals(req.user.id)) {
 					next();
 				} else {
